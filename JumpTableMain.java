@@ -1,5 +1,9 @@
 //imports
 import java.util.HashMap;
+import java.util.Stack;
+import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 // Create Enum for all the states
@@ -24,7 +28,7 @@ interface StateStayMeth {
 
 
 // Jump Table Class
-class JumpTable {
+class Screen {
     // HashMaps
     private HashMap<State, StateEnterExitMeth> stateEnterMeths;
     private HashMap<State, StateStayMeth> stateStayMeths;
@@ -33,6 +37,15 @@ class JumpTable {
     //State Tracker
     private State currentState;
 
+
+    // Data Structure generics
+    private Stack<Character> stack;
+    private Queue<Character> queue;
+    private ArrayList<Character> list;
+
+
+    // User input scanner
+    private Scanner inputScanner;
 
 }
 
