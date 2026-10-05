@@ -66,6 +66,10 @@ class Screen {
 
 
 
+
+        
+
+
         // Set the initial state to IDLE
         currentState = State.IDLE;
 
@@ -73,20 +77,41 @@ class Screen {
         if (stateEnterMeths.containsKey(currentState)){
             stateEnterMeths.get(currentState).invoke();
         }
-
-
-
     }
 
-    // doState 
+    // doState only calls stay method and returns true or false
+    public boolean doState() {
+        if (stateStayMeths.containsKey(currentState)){
+            return stateStayMeths.get(currentState).invoke();
+        }
+        return false;
+    }
 
 
 
     // changeState
+    public void changeState(State newState) {
+
+        // Exit current state
+        if (currentState != newState) {
+            if (stateExitMeths.containsKey(currentState)){
+                stateExitMeths.get(currentState).invoke();
+            }
+        
+
+        // set new state
+        currentState = newState;
+
+        // Enter new state
+        if (stateEnterMeths.containsKey(currentState)){
+            stateEnterMeths.get(currentState).invoke();
+        }
+        }
+    }
 
 
-    // TODO: create enter, stay, 
-    // and exit methods for idle, stack, queue, and list states
+
+    // TODO: create enter, stay, and exit methods for idle, stack, queue, and list states
 
 
 }
