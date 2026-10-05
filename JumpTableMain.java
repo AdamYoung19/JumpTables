@@ -4,6 +4,8 @@ import java.util.Stack;
 import java.util.Queue;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.LinkedList;
+
 
 
 // Create Enum for all the states
@@ -47,10 +49,54 @@ class Screen {
     // User input scanner
     private Scanner inputScanner;
 
+
+    public Screen() {
+        // Initializer
+        stateEnterMeths = new HashMap<>();
+        stateStayMeths = new HashMap<>();
+        stateExitMeths = new HashMap<>();
+
+        stack = new Stack<>();
+        queue = new LinkedList<>();
+        list = new ArrayList<>();
+        inputScanner = new Scanner(System.in);
+
+
+        // DO Later: add methods to hashmaps
+
+
+
+        // Set the initial state to IDLE
+        currentState = State.IDLE;
+
+        // Manually set the current state to IDLE
+        if (stateEnterMeths.containsKey(currentState)){
+            stateEnterMeths.get(currentState).invoke();
+        }
+
+
+
+    }
+
+    // doState 
+
+
+
+    // changeState
+
+
+    // TODO: create enter, stay, 
+    // and exit methods for idle, stack, queue, and list states
+
+
 }
 
 public class JumpTableMain {
     public static void main(String[] args){
-        
+        Screen screen = new Screen();
+        boolean keepRunning = true;
+        while (keepRunning) {
+            keepRunning = screen.doState();
+        }
     }
 }
