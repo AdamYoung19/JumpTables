@@ -81,6 +81,10 @@ class Screen {
         stateEnterMeths.put(State.QUEUE, this::stateEnterQueue);
         stateStayMeths.put(State.QUEUE, this::stateStayQueue);
         stateExitMeths.put(State.QUEUE, this::stateExitQueue);
+
+        stateEnterMeths.put(State.LIST, this::stateEnterList);
+        stateStayMeths.put(State.LIST, this::stateStayList);
+        stateExitMeths.put(State.LIST, this::stateExitList);
     
 
         // Set the initial state to IDLE
@@ -169,7 +173,7 @@ class Screen {
 
 
 
-    // TODO: create enter, stay, and exit methods for idle, stack, queue, and list states
+    // create enter, stay, and exit methods for idle, stack, queue, and list states
 
       //Helper function to clear screen
       private void clearScreen() {
@@ -270,7 +274,7 @@ class Screen {
                 }
                 return true;
             } else if (input.equals("3")) {
-                changeState(State.STACK);
+                changeState(State.QUEUE);
                 return true;
             } else if (input.equals("4")) {
                 changeState(State.LIST);
@@ -302,7 +306,7 @@ class Screen {
         clearScreen();
 
         //Draw Queue
-        if (queue.isEmpty()) System.out.println("Empty queue");
+        if (queue.isEmpty()) System.out.println("| ");
         
         else {
             System.out.print("| ");
@@ -355,6 +359,66 @@ class Screen {
         saveToFile(QUEUE_FILE, queue);
     }
 
+
+
+    // -- LIST STATES --
+
+    private void stateEnterList() {
+        loadFromFile(LIST_FILE, list);
+    }
+
+    private boolean stateStayList() {
+        clearScreen();
+
+        // Draw list
+        if (list.isEmpty()) System.out.println("{ }");
+        else {
+            System.out.print("{ ");
+            for (Character item : list) {System.out.print(item + ", ");}
+            System.out.println(" }");
+        }
+
+        // Draw Menu
+
+        System.out.println("1. Append");
+        System.out.println("2. Remove");
+        System.out.println("3. Save & Move to Stack");
+        System.out.println("4. Save & Move to Queue");
+        System.out.println("5. Save & Quit");
+        System.out.print("? ");
+
+
+        // Read user input
+        String input = inputScanner.nextLine().trim();
+
+        if (input.startsWith("1 ")){
+            if (input.length() >= 3) {
+                list.add(input.charAt(2));
+            }
+            return true;
+        } else if (input.equals("2")) {
+            if (!list.isEmpty()) {
+                list.remove(list.size() - 1);
+            }
+            return true;
+        } else if (input.equals("3")) {
+            changeState(State.STACK);
+            return true;
+        } else if (input.equals("4")) {
+            changeState(State.QUEUE);
+            return true;
+        } else if (input.equals("5")) {
+            stateExitList();
+            return false;
+        } 
+          
+      return true;
+        
+    }
+
+    private void stateExitList() {
+        saveToFile(LIST_FILE, list);
+    }
 }
 
 public class JumpTableMain {
