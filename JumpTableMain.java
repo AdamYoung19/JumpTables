@@ -69,7 +69,12 @@ class Screen {
         list = new ArrayList<>();
         inputScanner = new Scanner(System.in);
 
-
+        // Populate HashMaps
+        stateEnterMeths.put(State.IDLE, this::stateEnterIdle);    
+        stateStayMeths.put(State.IDLE, this::stateStayIdle);
+        stateExitMeths.put(State.IDLE, this::stateExitIdle);        
+    
+        
         // Set the initial state to IDLE
         currentState = State.IDLE;
 
@@ -158,7 +163,55 @@ class Screen {
 
     // TODO: create enter, stay, and exit methods for idle, stack, queue, and list states
 
-        
+      //Helper function to clear screen
+      private void clearScreen() {
+        for (int i = 0; i < 50; ++i) System.out.println();
+      }  
+
+      // -- IDLE STATES --
+
+      //idle doesn't load file
+      private void stateEnterIdle() {
+
+      }
+
+      private boolean stateStayIdle() {
+        clearScreen();
+
+        // Menu
+        System.out.println("1. Stack");
+        System.out.println("2. Queue");
+        System.out.println("3. List");
+        System.out.println("4. Quit");
+        System.out.print("? ");
+
+        //Read user input
+        String input = inputScanner.nextLine().trim();
+
+        switch (input) {
+            case "1":
+                changeState(State.STACK);
+                return true;
+            case "2":
+                changeState(State.QUEUE);
+                return true;
+            case "3":
+                changeState(State.LIST);
+                return true;
+            case "4":
+                return false;
+            default:
+                // Something invalid or blank just reprint the menu
+                return true;
+        }
+      }
+
+      // Exit idle state (IDLE doesn't save)
+      private void stateExitIdle() {
+
+      }
+
+
 
 }
 
