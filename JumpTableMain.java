@@ -5,11 +5,13 @@ import java.util.Queue;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.LinkedList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 
 // Create Enum for all the states
-
 enum State {
     IDLE,
     STACK,
@@ -50,6 +52,12 @@ class Screen {
     private Scanner inputScanner;
 
 
+    // File name constants
+    private final String STACK_FILE = "stack.txt";
+    private final String QUEUE_FILE = "queue.txt";
+    private final String LIST_FILE = "list.txt";
+
+
     public Screen() {
         // Initializer
         stateEnterMeths = new HashMap<>();
@@ -62,14 +70,6 @@ class Screen {
         inputScanner = new Scanner(System.in);
 
 
-        // DO Later: add methods to hashmaps
-
-
-
-
-        
-
-
         // Set the initial state to IDLE
         currentState = State.IDLE;
 
@@ -77,7 +77,52 @@ class Screen {
         if (stateEnterMeths.containsKey(currentState)){
             stateEnterMeths.get(currentState).invoke();
         }
+        
     }
+    // Helper function to read files and populate data structure from contents inside
+        private void loadFromFile(String fileName, java.util.Collection<Character> dataStructure){
+            dataStructure.clear();
+            try {
+                File file = new File(fileName);
+                if (file.exists()) {
+                    Scanner fileScanner = new Scanner(file);
+                    if (fileScanner.hasNextLine()) {
+                        String data = fileScanner.nextLine();
+
+                        //Split string
+                        String[] items = data.split(",");
+
+                        // go through the array
+                        for (String item : items) {
+                            if (!item.isEmpty()) {
+                                dataStructure.add(item.charAt(0));
+                        }
+                    }
+                }
+                fileScanner.close();
+            } 
+            } catch (IOException e) {
+                System.out.println("Error reading from file: " + fileName);
+            }
+        }
+
+
+    //Helper funciton to save data to file
+    private void saveToFile(String fileName, java.util.AbstractCollection<Character> dataStructure) {
+        try {
+            FileWriter writer = new FileWriter(fileName);
+
+            // Loop through data
+            for (Character item : dataStructure) {
+                writer.write(item + ",");
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error writing file: " + fileName);
+        }
+    }
+
+
 
     // doState only calls stay method and returns true or false
     public boolean doState() {
@@ -113,6 +158,7 @@ class Screen {
 
     // TODO: create enter, stay, and exit methods for idle, stack, queue, and list states
 
+        
 
 }
 
