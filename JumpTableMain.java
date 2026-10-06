@@ -230,10 +230,14 @@ class Screen {
         if (stack.isEmpty()) {
             System.out.println("Empty stack");
         } else {
+            System.out.println("|   |");
+            System.out.println("|---|");
+            
             for (int i = stack.size() - 1; i >= 0; i--) {
                 System.out.println("| " + (stack.get(i)) + " |");
-                System.out.println(" |---|");
+                System.out.println("|---|");
             }
+            
         }
 
         // Menu
