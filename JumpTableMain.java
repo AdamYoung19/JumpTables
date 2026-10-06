@@ -77,6 +77,10 @@ class Screen {
         stateEnterMeths.put(State.STACK, this::stateEnterStack);
         stateStayMeths.put(State.STACK, this::stateStayStack);
         stateExitMeths.put(State.STACK, this::stateExitStack);
+
+        stateEnterMeths.put(State.QUEUE, this::stateEnterQueue);
+        stateStayMeths.put(State.QUEUE, this::stateStayQueue);
+        stateExitMeths.put(State.QUEUE, this::stateExitQueue);
     
 
         // Set the initial state to IDLE
@@ -117,7 +121,7 @@ class Screen {
 
 
     //Helper funciton to save data to file
-    private void saveToFile(String fileName, java.util.AbstractCollection<Character> dataStructure) {
+    private void saveToFile(String fileName, java.util.Collection<Character> dataStructure) {
         try {
             FileWriter writer = new FileWriter(fileName);
 
@@ -254,30 +258,30 @@ class Screen {
         //Read user input
         String input = inputScanner.nextLine().trim();
 
-        // User Input Conditions
+        //user input
         if (input.startsWith("1 ")) {
-            //push
-            if (input.length() >= 3) {
-                stack.push(input.charAt(2));
+                if (input.length() >= 3) {
+                    stack.push(input.charAt(2));
+                }
+                return true;
+            } else if (input.equals("2")) {
+                if (!stack.isEmpty()) {
+                    stack.pop();
+                }
+                return true;
+            } else if (input.equals("3")) {
+                changeState(State.STACK);
+                return true;
+            } else if (input.equals("4")) {
+                changeState(State.LIST);
+                return true;
+            } else if (input.equals("5")) {
+                stateExitQueue();
+                return false;
+            } else {
+                // Something invalid or blank just reprint the menu
+                return true;
             }
-            return true;
-        } else if (input.equals("2")) {
-            if (!stack.isEmpty()) {
-                stack.pop();
-            }
-            return true;
-        } else if (input.equals("3")){
-            changeState(State.QUEUE);
-            return true;
-        } else if (input.equals("4")) {
-            changeState(State.LIST);
-            return true;
-        } else if (input.equals("5")) {
-            stateExitStack();
-            return false;
-        }
-        return true; //Redraw menu if invalid input
-
 
     }
 
@@ -285,6 +289,71 @@ class Screen {
         saveToFile(STACK_FILE, stack);
     }
 
+
+
+
+    // -- QUEUE STATES --
+
+    private void stateEnterQueue() {
+        loadFromFile(QUEUE_FILE, queue);
+    }
+
+    private boolean stateStayQueue() {
+        clearScreen();
+
+        //Draw Queue
+        if (queue.isEmpty()) System.out.println("Empty queue");
+        
+        else {
+            System.out.print("| ");
+            for (Character item : queue) {System.out.print(item + " | ");}
+            System.out.println(); }
+
+        // Draw menu
+        
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Save & Move to Stack");
+            System.out.println("4. Save & Move to List");
+            System.out.println("5. Save & Quit");
+            System.out.print("? ");
+
+            // Read user input
+            String input = inputScanner.nextLine().trim();
+
+
+            if (input.startsWith("1 ")) {
+                if (input.length() >= 3) {
+                    queue.add(input.charAt(2));
+                }
+                return true;
+            } else if (input.equals("2")) {
+                if (!queue.isEmpty()) {
+                    queue.remove();
+                }
+                return true;
+            } else if (input.equals("3")) {
+                changeState(State.STACK);
+                return true;
+            } else if (input.equals("4")) {
+                changeState(State.LIST);
+                return true;
+            } else if (input.equals("5")) {
+                stateExitQueue();
+                return false;
+            } else {
+                // Something invalid or blank just reprint the menu
+                return true;
+            }
+
+            
+             
+
+        }
+
+    private void stateExitQueue() {
+        saveToFile(QUEUE_FILE, queue);
+    }
 
 }
 
