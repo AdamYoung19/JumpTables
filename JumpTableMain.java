@@ -238,7 +238,7 @@ class Screen {
         // Menu
         System.out.println("1. Push");
         System.out.println("2. Pop");
-        System.out.println("3. Return to Main Menu");
+        System.out.println("3. Save & Move to Queue");
         System.out.println("4. Save & Move to List");
         System.out.println("5. Save & Quit");
         System.out.print("? ");
@@ -268,6 +268,7 @@ class Screen {
             changeState(State.LIST);
             return true;
         } else if (input.equals("5")) {
+            stateExitStack();
             return false;
         }
         return true; //Redraw menu if invalid input
