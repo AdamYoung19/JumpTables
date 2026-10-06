@@ -72,9 +72,13 @@ class Screen {
         // Populate HashMaps
         stateEnterMeths.put(State.IDLE, this::stateEnterIdle);    
         stateStayMeths.put(State.IDLE, this::stateStayIdle);
-        stateExitMeths.put(State.IDLE, this::stateExitIdle);        
-    
+        stateExitMeths.put(State.IDLE, this::stateExitIdle); 
         
+        stateEnterMeths.put(State.STACK, this::stateEnterStack);
+        stateStayMeths.put(State.STACK, this::stateStayStack);
+        stateExitMeths.put(State.STACK, this::stateExitStack);
+    
+
         // Set the initial state to IDLE
         currentState = State.IDLE;
 
@@ -165,7 +169,7 @@ class Screen {
 
       //Helper function to clear screen
       private void clearScreen() {
-        for (int i = 0; i < 50; ++i) System.out.println();
+        for (int i = 0; i < 25; ++i) System.out.println();
       }  
 
       // -- IDLE STATES --
@@ -211,6 +215,69 @@ class Screen {
 
       }
 
+      
+    
+    // -- STACK STATES --
+
+    private void stateEnterStack() {
+        loadFromFile(STACK_FILE, stack);
+    }
+
+    private boolean stateStayStack() {
+        clearScreen();
+
+        //Draw Stack
+        if (stack.isEmpty()) {
+            System.out.println("Empty stack");
+        } else {
+            for (int i = stack.size() - 1; i >= 0; i--) {
+                System.out.println(stack.get(i));
+            }
+        }
+
+        // Menu
+        System.out.println("1. Push");
+        System.out.println("2. Pop");
+        System.out.println("3. Return to Main Menu");
+        System.out.println("4. Save & Move to List");
+        System.out.println("5. Save & Quit");
+        System.out.print("? ");
+
+        // Bonus?
+        // Bonus.check(stack);
+
+        //Read user input
+        String input = inputScanner.nextLine().trim();
+
+        // User Input Conditions
+        if (input.startsWith("1 ")) {
+            //push
+            if (input.length() >= 3) {
+                stack.push(input.charAt(2));
+            }
+            return true;
+        } else if (input.equals("2")) {
+            if (!stack.isEmpty()) {
+                stack.pop();
+            }
+            return true;
+        } else if (input.equals("3")){
+            changeState(State.QUEUE);
+            return true;
+        } else if (input.equals("4")) {
+            changeState(State.LIST);
+            return true;
+        } else if (input.equals("5")) {
+            return false;
+        }
+        return true; //Redraw menu if invalid input
+
+
+    }
+
+    private void stateExitStack() {
+        saveToFile(STACK_FILE, stack);
+    }
 
 
 }
