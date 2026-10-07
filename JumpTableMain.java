@@ -31,8 +31,18 @@ interface StateStayMeth {
 }
 
 
+
+
+
 // Jump Table Class
 class Screen {
+
+    // Bonus Colors
+    private final String COLOR_RED = "\u001B[31m";
+    private final String COLOR_GREEN = "\u001B[32m";
+    private final String COLOR_BLUE = "\u001B[34m";
+    private final String COLOR_YELLOW = "\u001B[33m";
+    private final String COLOR_RESET = "\u001B[0m";
     // HashMaps
     private HashMap<State, StateEnterExitMeth> stateEnterMeths;
     private HashMap<State, StateStayMeth> stateStayMeths;
@@ -180,6 +190,8 @@ class Screen {
         for (int i = 0; i < 25; ++i) System.out.println();
       }  
 
+
+
       // -- IDLE STATES --
 
       //idle doesn't load file
@@ -190,12 +202,16 @@ class Screen {
       private boolean stateStayIdle() {
         clearScreen();
 
+
         // Menu
+
+        // BONUS COLOR
+        System.out.print(COLOR_YELLOW);
         System.out.println("1. Stack");
         System.out.println("2. Queue");
         System.out.println("3. List");
         System.out.println("4. Quit");
-        System.out.print("? ");
+        System.out.print("? " + COLOR_RESET);
 
         //Read user input
         String input = inputScanner.nextLine().trim();
@@ -235,6 +251,9 @@ class Screen {
         clearScreen();
 
         //Draw Stack
+
+        //BONUS COLOR
+        System.out.print(COLOR_RED);
         if (stack.isEmpty()) {
             System.out.println("|   |");
             System.out.println("|---|");
@@ -250,15 +269,17 @@ class Screen {
         }
 
         // Menu
+        // BONUS COLOR
+        System.out.print(COLOR_YELLOW);
         System.out.println("1. Push");
         System.out.println("2. Pop");
         System.out.println("3. Save & Move to Queue");
         System.out.println("4. Save & Move to List");
         System.out.println("5. Save & Quit");
-        System.out.print("? ");
+        System.out.print("? " + COLOR_RESET);
 
         // Bonus?
-        // Bonus.check(stack);
+        Bonus.check(stack);
 
         //Read user input
         String input = inputScanner.nextLine().trim();
@@ -306,6 +327,8 @@ class Screen {
     private boolean stateStayQueue() {
         clearScreen();
 
+        // BONUS COLOR
+        System.out.print(COLOR_GREEN);
         //Draw Queue
         if (queue.isEmpty()) System.out.println("| ");
         
@@ -315,13 +338,17 @@ class Screen {
             System.out.println(); }
 
         // Draw menu
-        
+            // BONUS COLOR
+            System.out.print(COLOR_YELLOW);
             System.out.println("1. Enqueue");
             System.out.println("2. Dequeue");
             System.out.println("3. Save & Move to Stack");
             System.out.println("4. Save & Move to List");
             System.out.println("5. Save & Quit");
-            System.out.print("? ");
+            System.out.print("? " + COLOR_RESET);
+
+            // Bonus?
+            Bonus.check(queue);
 
             // Read user input
             String input = inputScanner.nextLine().trim();
@@ -372,6 +399,10 @@ class Screen {
         clearScreen();
 
         // Draw list
+
+        // BONUS COLOR
+        System.out.print(COLOR_BLUE);
+        
         if (list.isEmpty()) System.out.println("{ }");
         else {
             System.out.print("{ ");
@@ -380,15 +411,17 @@ class Screen {
         }
 
         // Draw Menu
-
+        // BONUS COLOR
+        System.out.print(COLOR_YELLOW);
         System.out.println("1. Append");
         System.out.println("2. Remove");
         System.out.println("3. Save & Move to Stack");
         System.out.println("4. Save & Move to Queue");
         System.out.println("5. Save & Quit");
-        System.out.print("? ");
+        System.out.print("? " + COLOR_RESET);
 
-
+        // Bonus?
+        Bonus.check(list);
         // Read user input
         String input = inputScanner.nextLine().trim();
 
