@@ -236,7 +236,8 @@ class Screen {
 
         //Draw Stack
         if (stack.isEmpty()) {
-            System.out.println("Empty stack");
+            System.out.println("|   |");
+            System.out.println("|---|");
         } else {
             System.out.println("|   |");
             System.out.println("|---|");
@@ -280,7 +281,7 @@ class Screen {
                 changeState(State.LIST);
                 return true;
             } else if (input.equals("5")) {
-                stateExitQueue();
+                stateExitStack();
                 return false;
             } else {
                 // Something invalid or blank just reprint the menu
